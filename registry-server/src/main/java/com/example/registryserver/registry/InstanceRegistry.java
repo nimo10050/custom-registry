@@ -22,11 +22,8 @@ public class InstanceRegistry {
         instanceInfo.setLastRenewTimestamp(System.currentTimeMillis());
         ConcurrentHashMap<String, InstanceInfo> gMap = registry.get(instanceInfo.getAppName());
         if (gMap == null) {
-            ConcurrentHashMap<String, InstanceInfo> gNewMap = new ConcurrentHashMap<>();
-            gMap = registry.putIfAbsent(instanceInfo.getAppName(), gNewMap);
-            if (gMap == null) {
-                gMap = gNewMap;
-            }
+            gMap = new ConcurrentHashMap<>();
+            registry.put(instanceInfo.getAppName(), gMap);
         }
         gMap.put(instanceInfo.getInstanceId(), instanceInfo);
     }
